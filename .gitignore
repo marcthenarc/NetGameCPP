@@ -3,7 +3,9 @@ Binaries
 DerivedDataCache
 Intermediate
 Saved
-NetGameCPP.s*
+*.suo
+*.sdf
+*.sln
 
 # Windows image file caches
 Thumbs.db
