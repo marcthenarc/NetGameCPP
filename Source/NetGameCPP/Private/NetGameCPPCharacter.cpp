@@ -213,3 +213,16 @@ void ANetGameCPPCharacter::AttemptSpawnBomb()
         }
     }
 }
+
+float ANetGameCPPCharacter::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
+{
+	float realDamage = Super::TakeDamage(Damage, DamageEvent, EventInstigator, DamageCauser);
+
+	if (realDamage >= 0.0f)
+		Health -= realDamage;
+
+	if (Health <= 0.0f)
+		InitHealth();
+
+	return realDamage;
+}

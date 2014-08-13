@@ -3,6 +3,7 @@
 #pragma once
 
 #include "GameFramework/Actor.h"
+#include "ParticleDefinitions.h"
 #include "Bomb.generated.h"
 
 /**
@@ -37,9 +38,24 @@ protected:
 	UFUNCTION()
 	void OnProjectileBounce( const FHitResult& ImpactResult, const FVector& ImpactVelocity);
 
+	UFUNCTION()
+	void OnFuseExpired();
+
 	FName MaterialColorParamName;
 	FColor MaterialColor;
-	USceneComponent * GetComponent(USceneComponent *parent, const FString& childLabel);
+	float FuseTime;
+	float ExplosionRadius;
+	float ExplosionDamage;
 
 	void SetBombColor(const FLinearColor& bombColor);
+	USceneComponent * GetComponent(USceneComponent *parent, const FString& childLabel);
+	void ApplyExplosionDamage();
+
+	UFUNCTION(NetMulticast, Unreliable)
+	void OnExplosion();
+
+	/** Bomb class to spawn */
+	 /** effect played on respawn */
+	UPROPERTY(EditDefaultsOnly, Category=Explosion)
+	UParticleSystem* ExplosionEffects;
 };

@@ -3,12 +3,19 @@
 #include "NetGameCPP.h"
 #include "Bomb.h"
 #include "UnrealNetwork.h"
+#include "NetGameCPPCharacter.h"
+
+
+#define FromFloat(x) FString::Printf(TEXT("%0.2f"), x)
 
 ABomb::ABomb(const class FPostConstructInitializeProperties& PCIP)
 	: Super(PCIP)
 	, Armed(false)
 	, MaterialColorParamName(TEXT("Color"))
 	, BombMIB(NULL)
+	, FuseTime(3.0f)
+	, ExplosionRadius(300.0f)
+	, ExplosionDamage(25.0f)
 {
 
 	CollisionComp = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("SphereComp"));
@@ -27,7 +34,6 @@ ABomb::ABomb(const class FPostConstructInitializeProperties& PCIP)
     ProjectileMovement->bShouldBounce = true;
     ProjectileMovement->Bounciness  = 0.6f;
 	ProjectileMovement->OnProjectileBounce.AddDynamic(this, &ABomb::OnProjectileBounce);
-
 }
 
 void ABomb::OnConstruction(const FTransform &Transform)
@@ -76,6 +82,16 @@ void ABomb::OnProjectileBounce(const FHitResult& ImpactResult, const FVector& Im
 
 		// You must call the rep function yourself for the server or it will never change color.
 		OnRep_Armed();
+
+		GetWorldTimerManager().SetTimer(this, &ABomb::OnFuseExpired, FuseTime, false);
+	}
+}
+
+void ABomb::OnFuseExpired()
+{
+	if (Role == ROLE_Authority)
+	{
+		ApplyExplosionDamage();
 	}
 }
 
@@ -97,4 +113,25 @@ void ABomb::SetBombColor(const FLinearColor& bombColor)
 {
 	if (BombMIB)
 		BombMIB->SetVectorParameterValue(MaterialColorParamName, bombColor);
+}
+
+void ABomb::ApplyExplosionDamage()
+{
+	for ( TActorIterator<ANetGameCPPCharacter> aItr(GetWorld()); aItr; ++aItr )
+	{
+		if ( GetDistanceTo(*aItr) <= ExplosionRadius)
+			UGameplayStatics::ApplyDamage(*aItr, ExplosionDamage, GetInstigatorController(), this, UDamageType::StaticClass());
+	}
+
+	OnExplosion();
+	SetLifeSpan(2.0f);
+}
+
+void ABomb::OnExplosion_Implementation()
+{
+	if (ExplosionEffects)
+		UGameplayStatics::SpawnEmitterAtLocation(this, ExplosionEffects, GetActorLocation(), FRotator::ZeroRotator, true);
+
+	SetActorEnableCollision(false);
+	SetActorHiddenInGame(true);
 }

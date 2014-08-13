@@ -85,6 +85,8 @@ protected:
     UPROPERTY(EditAnywhere, BlueprintReadWrite, Category=Gameplay)
     FVector ExitOffset;
 
+	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
 	void AttemptSpawnBomb();
 };
 
