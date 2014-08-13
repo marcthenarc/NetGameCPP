@@ -1,10 +1,9 @@
 # Unreal extra files and directories
-Build
+Binaries
 DerivedDataCache
 Intermediate
 Saved
-NetGameCPP.sln
-NetGameCPP.v12.suo
+NetGameCPP.*
 
 # Windows image file caches
 Thumbs.db
