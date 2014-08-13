@@ -1,0 +1,13 @@
+{
+	"FileVersion": 3,
+	"EngineAssociation": "{63D6BBB6-4DB6-E511-9809-46B826C257C6}",
+	"Category": "",
+	"Description": "",
+	"Modules": [
+		{
+			"Name": "NetGameCPP",
+			"Type": "Runtime",
+			"LoadingPhase": "Default"
+		}
+	]
+}
