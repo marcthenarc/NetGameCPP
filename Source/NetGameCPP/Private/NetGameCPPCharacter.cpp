@@ -190,7 +190,7 @@ void ANetGameCPPCharacter::AttemptSpawnBomb()
         if (BombClass != NULL)
         {
             // Get the camera transform
-            FVector ExitLoc  = GetActorLocation() + GetActorForwardVector();
+            FVector ExitLoc  = GetActorLocation() + GetActorForwardVector() * 100;
             FRotator ExitRot = GetActorRotation();
 	
             UWorld* const World = GetWorld();
