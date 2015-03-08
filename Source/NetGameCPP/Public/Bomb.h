@@ -15,10 +15,10 @@ class NETGAMECPP_API ABomb : public AActor
 	GENERATED_UCLASS_BODY()
 
 	UPROPERTY(VisibleDefaultsOnly, Category=Bomb)
-	TSubobjectPtr<USphereComponent> CollisionComp;
+	USphereComponent* CollisionComp;
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category=Movement)
-	TSubobjectPtr<class UProjectileMovementComponent> ProjectileMovement;
+	UProjectileMovementComponent* ProjectileMovement;
 
 	void InitVelocity(const FVector& ShootDirection);
 

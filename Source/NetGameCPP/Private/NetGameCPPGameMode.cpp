@@ -4,8 +4,8 @@
 #include "NetGameCPPGameMode.h"
 #include "NetGameCPPHUD.h"
 
-ANetGameCPPGameMode::ANetGameCPPGameMode(const class FPostConstructInitializeProperties& PCIP)
-	: Super(PCIP)
+ANetGameCPPGameMode::ANetGameCPPGameMode(const class FObjectInitializer& oi)
+	: Super(oi)
 {
 	// set default pawn class to our Blueprinted character
 	static ConstructorHelpers::FObjectFinder<UClass> PlayerPawnBPClass(TEXT("Class'/Game/Blueprints/MyCharacter.MyCharacter_C'"));

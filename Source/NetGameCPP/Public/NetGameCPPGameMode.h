@@ -6,7 +6,11 @@
 UCLASS(minimalapi)
 class ANetGameCPPGameMode : public AGameMode
 {
-	GENERATED_UCLASS_BODY()
+	GENERATED_BODY()
+
+public:
+
+	ANetGameCPPGameMode(const class FObjectInitializer& oi);
 
 };
 
