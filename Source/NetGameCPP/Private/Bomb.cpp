@@ -8,8 +8,8 @@
 
 #define FromFloat(x) FString::Printf(TEXT("%0.2f"), x)
 
-ABomb::ABomb(const class FPostConstructInitializeProperties& PCIP)
-	: Super(PCIP)
+ABomb::ABomb(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 	, Armed(false)
 	, MaterialColorParamName(TEXT("Color"))
 	, BombMIB(NULL)
@@ -18,7 +18,7 @@ ABomb::ABomb(const class FPostConstructInitializeProperties& PCIP)
 	, ExplosionDamage(25.0f)
 {
 
-	CollisionComp = PCIP.CreateDefaultSubobject<USphereComponent>(this, TEXT("SphereComp"));
+	CollisionComp = ObjectInitializer.CreateDefaultSubobject<USphereComponent>(this, TEXT("SphereComp"));
 	CollisionComp->InitSphereRadius(55.0f);
 
 	CollisionComp->SetCollisionProfileName(FName(TEXT("BlockAll")));
@@ -26,7 +26,7 @@ ABomb::ABomb(const class FPostConstructInitializeProperties& PCIP)
 	RootComponent = CollisionComp;
 
     // Use a ProjectileMovementComponent to govern this projectile's movement
-    ProjectileMovement = PCIP.CreateDefaultSubobject<UProjectileMovementComponent>(this, TEXT("ProjectileComp"));
+    ProjectileMovement = ObjectInitializer.CreateDefaultSubobject<UProjectileMovementComponent>(this, TEXT("ProjectileComp"));
     ProjectileMovement->UpdatedComponent = CollisionComp;
     ProjectileMovement->InitialSpeed = 1000.f;
     ProjectileMovement->MaxSpeed = 3000;
@@ -83,7 +83,7 @@ void ABomb::OnProjectileBounce(const FHitResult& ImpactResult, const FVector& Im
 		// You must call the rep function yourself for the server or it will never change color.
 		OnRep_Armed();
 
-		GetWorldTimerManager().SetTimer(this, &ABomb::OnFuseExpired, FuseTime, false);
+		GetWorldTimerManager().SetTimer(BombTimerHandle, this, &ABomb::OnFuseExpired,FuseTime, false);
 	}
 }
 

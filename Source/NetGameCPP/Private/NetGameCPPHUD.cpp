@@ -3,8 +3,8 @@
 #include "NetGameCPP.h"
 #include "NetGameCPPHUD.h"
 
-ANetGameCPPHUD::ANetGameCPPHUD(const class FPostConstructInitializeProperties& PCIP)
-	: Super(PCIP)
+ANetGameCPPHUD::ANetGameCPPHUD(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 {
 	static ConstructorHelpers::FObjectFinder<UFont>HUDFontOb(TEXT("Font'/Game/Font/OpenSans48.OpenSans48'"));
 	MyFont = HUDFontOb.Object;

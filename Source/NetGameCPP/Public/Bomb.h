@@ -41,6 +41,9 @@ protected:
 	UFUNCTION()
 	void OnFuseExpired();
 
+
+	FTimerHandle BombTimerHandle;
+
 	FName MaterialColorParamName;
 	FColor MaterialColor;
 	float FuseTime;

@@ -7,8 +7,8 @@
 //////////////////////////////////////////////////////////////////////////
 // ANetGameCPPCharacter
 
-ANetGameCPPCharacter::ANetGameCPPCharacter(const class FPostConstructInitializeProperties& PCIP)
-	: Super(PCIP)
+ANetGameCPPCharacter::ANetGameCPPCharacter(const FObjectInitializer& ObjectInitializer)
+	: Super(ObjectInitializer)
 	, Health(0.0f)
 	, BombCount(0)
 	, MaxHealth(100.0f)
@@ -33,13 +33,13 @@ ANetGameCPPCharacter::ANetGameCPPCharacter(const class FPostConstructInitializeP
 	CharacterMovement->AirControl = 0.2f;
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = PCIP.CreateDefaultSubobject<USpringArmComponent>(this, TEXT("CameraBoom"));
+	CameraBoom = ObjectInitializer.CreateDefaultSubobject<USpringArmComponent>(this, TEXT("CameraBoom"));
 	CameraBoom->AttachTo(RootComponent);
 	CameraBoom->TargetArmLength = 300.0f; // The camera follows at this distance behind the character	
 	CameraBoom->bUseControllerViewRotation = true; // Rotate the arm based on the controller
 
 	// Create a follow camera
-	FollowCamera = PCIP.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FollowCamera"));
+	FollowCamera = ObjectInitializer.CreateDefaultSubobject<UCameraComponent>(this, TEXT("FollowCamera"));
 	FollowCamera->AttachTo(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
 	FollowCamera->bUseControllerViewRotation = false; // Camera does not rotate relative to arm
 
