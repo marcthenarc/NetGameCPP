@@ -32,9 +32,6 @@ class ANetGameCPPCharacter : public ACharacter
 	UPROPERTY(Replicated)
 	int32 BombCount;
 
-	UPROPERTY(Replicated)
-	int32 TSId;
-
 protected:
 
 	/** Called for forwards/backward input */
@@ -61,8 +58,6 @@ protected:
 	/** Called when we spawn a bomb. */
 	void SpawnBomb();
 
-	void IncrementID();
-
 protected:
 	// APawn interface
 	virtual void SetupPlayerInputComponent(class UInputComponent* InputComponent);
@@ -82,9 +77,6 @@ protected:
 	UFUNCTION(Server, Reliable, WithValidation)
 	void Server_AttemptSpawnBomb();
 
-	UFUNCTION(Server, Reliable, WithValidation)
-	void Server_SetTSId(int32 id);
-
 	/** Bomb class to spawn */
     UPROPERTY(EditDefaultsOnly, Category=Bomb)
     TSubclassOf<class ABomb> BombClass;
@@ -96,6 +88,5 @@ protected:
 	virtual float TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 
 	void AttemptSpawnBomb();
-	void SetTSId(int32 id);
 };
 

@@ -35,26 +35,6 @@ void ANetGameCPPHUD::DrawHUD()
 	const FString TextBombs = FString::FromInt(TheChar->BombCount);
 	GetTextSize(TextBombs, w, h, MyFont);
 	DrawText(TextBombs, FLinearColor(1.0f, 1.0f, 1.0f, 0.5f), (float)(X + 263) - w / 2, 138.0f - h / 2, MyFont);
-
-	float Top = 138.0f;
-
-	for ( TActorIterator<ANetGameCPPCharacter> Itr(GetWorld()); Itr; ++Itr )
-	{
-		FLinearColor c;
-
-		ANetGameCPPCharacter *curr = *Itr;
-
-		if (curr == TheChar)
-			c = FLinearColor(1.0f, 0.f, 0.f, 0.5f);
-		else
-			c = FLinearColor(1.0f, 1.f, 1.f, 0.5f);
-
-		const FString TextIDValue = FString::FromInt(curr->TSId);
-		GetTextSize(TextIDValue, w, h, MyFont);
-		DrawText(TextIDValue, c, 50.f - w / 2, Top - h / 2, MyFont);
-
-		Top += 50.f;
-	}
 }
 
 
